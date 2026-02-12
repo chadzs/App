@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Portal & Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Background */
+        .bg-animate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0f172a, #1e1b4b, #312e81);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: var(--glass); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .nav-btns button {
+            background: var(--primary); color: white; border: none;
+            padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;
+        }
+
+        /* Forms */
+        .modal {
+            display: none; position: fixed; z-index: 200; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            justify-content: center; align-items: center;
+        }
+
+        .form-container {
+            background: rgba(30, 41, 59, 0.9); padding: 2rem;
+            border-radius: 15px; width: 350px; border: 1px solid var(--glass);
+        }
+
+        input, textarea, select {
+            width: 100%; margin: 10px 0; padding: 10px;
+            background: #334155; border: none; color: white; border-radius: 5px;
+        }
+
+        /* Sticky Footer Nav */
+        .footer-nav {
+            background: var(--primary); padding: 1rem;
+            display: flex; justify-content: center; gap: 2rem;
+            position: relative; transition: all 0.3s;
+        }
+
+        .sticky-footer {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 99;
+        }
+
+        /* Shop Grid */
+        .shop-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 2rem; }
+        .item-card { background: var(--glass); padding: 15px; border-radius: 10px; text-align: center; }
+        .item-card img { max-width: 100%; border-radius: 5px; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-animate"></div>
+
+    <nav>
+        <div class="logo"><h2>NEXUS</h2></div>
+        <div class="nav-btns" id="auth-btns">
+            <button onclick="openModal('login')">Login</button>
+            <button onclick="openModal('signup')">Sign Up</button>
+        </div>
+        <div id="user-display" class="hidden"></div>
+    </nav>
+
+    <section id="landing" class="content-section" style="padding: 100px 5%; text-align: center;">
+        <h1>Welcome to the Future</h1>
+        <p>A modern platform for trading and community.</p>
+    </section>
+
+    <section id="shop-section" class="hidden">
+        <h2 style="padding: 20px;">The Shop</h2>
+        <div id="admin-panel" class="hidden" style="padding: 20px; background: var(--glass);">
+            <h3>Upload Item (Admin Only)</h3>
+            <input type="text" id="p-name" placeholder="Item Name">
+            <textarea id="p-desc" placeholder="Description"></textarea>
+            <input type="number" id="p-price" placeholder="Price ($)">
+            <input type="text" id="p-img" placeholder="Image URL">
+            <label>Limited? <input type="checkbox" id="p-limited" onchange="toggleStock()"></label>
+            <input type="number" id="p-stock" class="hidden" placeholder="Stock Amount">
+            <button onclick="uploadItem()" style="width:100%">Upload</button>
+        </div>
+        <div class="shop-container" id="shop-display"></div>
+    </section>
+
+    <div id="authModal" class="modal">
+        <div class="form-container">
+            <h2 id="modal-title">Login</h2>
+            <div id="signup-fields" class="hidden">
+                <input type="date" id="reg-dob">
+            </div>
+            <input type="text" id="user-id" placeholder="Username">
+            <input type="password" id="pass-id" placeholder="Password">
+            <button onclick="handleAuth()" id="auth-submit" style="width:100%">Submit</button>
+            <button onclick="closeModal()" style="background:none; color:gray; width:100%">Cancel</button>
+        </div>
+    </div>
+
+    <footer id="footer-nav" class="footer-nav">
+        <a href="#landing" style="color:white; text-decoration:none;">Home</a>
+        <a href="javascript:void(0)" onclick="showShop()" style="color:white; text-decoration:none;">Shop</a>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
